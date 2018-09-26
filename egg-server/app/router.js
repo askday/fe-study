@@ -5,7 +5,7 @@ module.exports = (app) => {
 
   /* eslint-disable */
   app.once('server', (server) => {
-    console.log('=====', server);
+    console.log('=====', app.config.keys);
   });
 
   app.once('error', (err, ctx) => {

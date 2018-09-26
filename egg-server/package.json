@@ -5,7 +5,8 @@
   "license": "MIT",
   "scripts": {
     "dev": "egg-bin dev",
-    "debug": "egg-bin debug"
+    "debug": "egg-bin debug",
+    "test": "EGG_SERVER_ENV=test egg-bin dev"
   },
   "dependencies": {
     "egg": "^2.11.2",
