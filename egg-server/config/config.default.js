@@ -1,23 +1,21 @@
-exports.keys = 'eggs';
-
-exports.view = {
-  defaultViewEngine: 'nunjucks',
-  mapping: {
-    '.tpl': 'nunjucks',
+module.exports = {
+  keys: 'eggs',
+  view: {
+    defaultViewEngine: 'nunjucks',
+    mapping: {
+      '.tpl': 'nunjucks',
+    },
   },
-};
-
-exports.middleware = [
-  'robot',
-];
-
-exports.news = {
-  pageSize: 5,
-  serverUrl: 'https://hacker-news.firebaseio.com/v0',
-};
-
-exports.robot = {
-  ua: [
-    /Baiduspider/i,
+  middleware: [
+    'robot',
   ],
+  news: {
+    pageSize: 5,
+    serverUrl: 'https://hacker-news.firebaseio.com/v0',
+  },
+  robot: {
+    ua: [
+      /Baiduspider/i,
+    ],
+  },
 };
