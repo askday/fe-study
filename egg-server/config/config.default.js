@@ -18,4 +18,18 @@ module.exports = {
       /Baiduspider/i,
     ],
   },
+  mysql: {
+    client: {
+      host: '127.0.0.1',
+      port: '3306',
+      user: 'root',
+      password: '123',
+      database: 'nsip',
+    },
+  },
+  security: {
+    csrf: {
+      enable: false,
+    },
+  },
 };

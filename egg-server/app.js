@@ -7,11 +7,11 @@ module.exports = (app) => {
   });
 
   app.once('server', (server) => {
-    console.log('=====', app.config.keys);
+    console.log('===server==', app.config.keys);
   });
 
   app.once('error', (err, ctx) => {
-    console.log('=====', err);
+    console.log('===error==', err);
   });
 
   app.once('request', (ctx) => {

@@ -7,4 +7,9 @@ module.exports = {
     enable: true,
     package: 'egg-mysql',
   },
+  validate: {
+    enable: true,
+    package: 'egg-validate',
+  },
+
 };
