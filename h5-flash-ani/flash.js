@@ -5,7 +5,6 @@ let _timer;
 let _lightCount = 40;
 let _lightWidth;
 
-let _imgData;
 let _poiData;
 let _percent;
 
@@ -59,10 +58,16 @@ function pika(tx, ty, s) {
       r += Math.PI * 2 / max;
     }
     ctx.beginPath();
-    for (a = 0; a < max; a++) ctx.lineTo(tx + p[a][0] * s, ty + p[a][1] * s);
+    for (a = 0; a < max; a++) {
+      if (a === 0) {
+        ctx.moveTo(tx + p[a][0] * s, ty + p[a][1] * s);
+      } else {
+        ctx.lineTo(tx + p[a][0] * s, ty + p[a][1] * s);
+      }
+    }
+    ctx.closePath();
     ctx.fill();
   }
-
   ctx.beginPath();
   ctx.arc(tx, ty, s / 2, 0, Math.PI * 2, 0);
   ctx.fill();
@@ -89,16 +94,13 @@ function bem(x1, y1, x2, y2, col, ban, s) {
   let ft2;
   let grd; let tm; let t;
 
-  ctx.strokeStyle = `hsla(${col},60%,60%,0.3)`;
-  ctx.fillStyle = `hsla(${col},60%,60%,0.3)`;
-
   grd = ctx.createRadialGradient(x1, y1, 0, x1, y1, _lightWidth * 70);
   grd.addColorStop(0, `hsla(${col},60%,60%,0.9)`);
   grd.addColorStop(1, `hsla(${col},60%,60%,0.0)`);
   ctx.fillStyle = grd;
   ctx.strokeStyle = grd;
-
   pika(x1, y1, _lightWidth * 70);
+
   x = x1 + (x2 - x1) * 0.97;
   y = y1 + (y2 - y1) * 0.97;
   grd = ctx.createRadialGradient(x, y, 0, x, y, _lightWidth * 100);
@@ -106,13 +108,13 @@ function bem(x1, y1, x2, y2, col, ban, s) {
   grd.addColorStop(1, `hsla(${col},60%,60%,0.0)`);
   ctx.fillStyle = grd;
   ctx.strokeStyle = grd;
-
   pika(x, y, _lightWidth * 100);
 
   ctx.strokeStyle = `hsla(${col},60%,60%,0.1)`;
   ctx.fillStyle = `hsla(${col},60%,60%,0.1)`;
-
   duma(x1, y1, x2, y2, 6, s * _lightWidth * 2);
+
+  /*
   ctx.strokeStyle = `hsla(${col},60%,60%,0.15)`;
   ctx.fillStyle = `hsla(${col},60%,60%,0.15)`;
 
@@ -188,12 +190,10 @@ function bem(x1, y1, x2, y2, col, ban, s) {
     }
     ctx.fill();
   }
+  */
 }
 
 function _run() {
-  ctx.putImageData(_imgData, 0, 0);
-  ctx.globalCompositeOperation = 'source-over';
-  ctx.globalCompositeOperation = 'lighter';
 
   _percent = _step / _lightCount * Math.PI * 2;
 
@@ -205,16 +205,13 @@ function _run() {
   const tx = x1 + (x2 - x1) * a;
   const ty = y1 + (y2 - y1) * a;
 
+  ctx.globalCompositeOperation = 'lighter';
   bem(x1, y1, tx, ty, 222, 0, a * 2);
   bem(x2, y2, tx, ty, 333, 1, (1 - a) * 2);
 }
 
 
 function _preRender() {
-  _step = 0;
-  _lightCount = 40;
-  _lightWidth = 3.0 / 10;
-
   const x1 = _poiData[0][0];
   const y1 = _poiData[0][1];
   const x2 = _poiData[1][0];
@@ -224,22 +221,28 @@ function _preRender() {
   const px = Math.cos(a) * _lightWidth * 100;
   const py = Math.sin(a) * _lightWidth * 100;
 
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = 'rgba(0,0,0,1)';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
   let grd = ctx.createLinearGradient(x1 - py, y1 + px, x1 + py, y1 - px);
-  grd.addColorStop(0, 'rgba(0,0,0,0)');
-  grd.addColorStop(0.5, 'rgba(0,0,0,1)');
-  grd.addColorStop(1, 'rgba(0,0,0,0)');
+  grd.addColorStop(0, 'rgba(0,255,0,0)');
+  grd.addColorStop(0.5, 'rgba(0,255,0,1)');
+  grd.addColorStop(1, 'rgba(0,255,0,0)');
   ctx.fillStyle = grd;
 
   ctx.beginPath();
+  ctx.moveTo(x1 - py, y1 + px);
   ctx.lineTo(x1 - py, y1 + px);
   ctx.lineTo(x2 - py, y2 + px);
   ctx.lineTo(x2 + py, y2 - px);
   ctx.lineTo(x1 + py, y1 - px);
+  ctx.closePath();
   ctx.fill();
 
   grd = ctx.createRadialGradient(x1, y1, 0, x1, y1, _lightWidth * 100);
-  grd.addColorStop(0, 'rgba(0,0,0,1)');
-  grd.addColorStop(1, 'rgba(0,0,0,0)');
+  grd.addColorStop(0, 'rgba(0,255,0,1)');
+  grd.addColorStop(1, 'rgba(0,255,0,0)');
   ctx.fillStyle = grd;
 
   ctx.beginPath();
@@ -247,19 +250,19 @@ function _preRender() {
   ctx.fill();
 
   grd = ctx.createRadialGradient(x2, y2, 0, x2, y2, _lightWidth * 100);
-  grd.addColorStop(0, 'rgba(0,0,0,1)');
-  grd.addColorStop(1, 'rgba(0,0,0,0)');
+  grd.addColorStop(0, 'rgba(0,255,0,1)');
+  grd.addColorStop(1, 'rgba(0,255,0,0)');
   ctx.fillStyle = grd;
 
   ctx.beginPath();
   ctx.arc(x2, y2, _lightWidth * 100, a + Math.PI * 1.5, a + Math.PI / 2, 0);
   ctx.fill();
-  _imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
 }
 
 function _loop() {
   if (_timer) clearTimeout(_timer);
-  _timer = setTimeout(_loop, 40);
+  _timer = setTimeout(_loop, 60);
+  _preRender();
   _run();
   _step++;
 }
@@ -267,7 +270,6 @@ function _loop() {
 function init() {
   canvas.width = 800;
   canvas.height = 300;
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
   const _startX = (canvas.width / 4) || 0;
   const _startY = (canvas.height / 2) || 0;
   const _endX = canvas.width - _startX;
@@ -276,8 +278,11 @@ function init() {
     [_startX, _startY],
     [_endX, _endY],
   ];
-  _preRender();
+  _step = 0;
+  _lightCount = 40;
+  _lightWidth = 3.0 / 10;
   _loop();
+
 }
 
 init();
