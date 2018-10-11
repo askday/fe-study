@@ -4,15 +4,16 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "egg-bin dev",
-    "debug": "egg-bin debug",
-    "test": "EGG_SERVER_ENV=test egg-bin dev",
+    "dev": "egg-bin dev --sticky",
+    "debug": "egg-bin debug --sticky",
+    "test": "EGG_SERVER_ENV=test egg-bin dev --sticky",
     "cov": "egg-bin cov"
   },
   "dependencies": {
     "egg": "^2.11.2",
     "egg-bin": "^4.9.0",
     "egg-mysql": "^3.0.0",
+    "egg-socket.io": "^4.1.3",
     "egg-validate": "^2.0.1",
     "egg-view-nunjucks": "^2.2.0",
     "moment": "^2.22.2"

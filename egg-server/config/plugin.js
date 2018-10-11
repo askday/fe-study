@@ -11,5 +11,8 @@ module.exports = {
     enable: true,
     package: 'egg-validate',
   },
-
+  io: {
+    enable: true,
+    package: 'egg-socket.io',
+  },
 };

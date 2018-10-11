@@ -32,4 +32,13 @@ module.exports = {
       enable: false,
     },
   },
+  io: {
+    init: {},
+    namespace: {
+      '/': {
+        connectionMiddleware: [],
+        packetMiddleware: [],
+      },
+    },
+  },
 };
