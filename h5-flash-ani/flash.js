@@ -101,20 +101,19 @@ function bem(x1, y1, x2, y2, col, ban, s) {
   ctx.strokeStyle = grd;
   pika(x1, y1, _lightWidth * 70);
 
-  x = x1 + (x2 - x1) * 0.97;
-  y = y1 + (y2 - y1) * 0.97;
-  grd = ctx.createRadialGradient(x, y, 0, x, y, _lightWidth * 100);
-  grd.addColorStop(0, `hsla(${col},60%,60%,0.4)`);
-  grd.addColorStop(1, `hsla(${col},60%,60%,0.0)`);
-  ctx.fillStyle = grd;
-  ctx.strokeStyle = grd;
-  pika(x, y, _lightWidth * 100);
+  // x = x1 + (x2 - x1) * 0.97;
+  // y = y1 + (y2 - y1) * 0.97;
+  // grd = ctx.createRadialGradient(x, y, 0, x, y, _lightWidth * 100);
+  // grd.addColorStop(0, `hsla(${col},60%,60%,0.4)`);
+  // grd.addColorStop(1, `hsla(${col},60%,60%,0.0)`);
+  // ctx.fillStyle = grd;
+  // ctx.strokeStyle = grd;
+  // pika(x, y, _lightWidth * 100);
 
   ctx.strokeStyle = `hsla(${col},60%,60%,0.1)`;
   ctx.fillStyle = `hsla(${col},60%,60%,0.1)`;
   duma(x1, y1, x2, y2, 6, s * _lightWidth * 2);
 
-  /*
   ctx.strokeStyle = `hsla(${col},60%,60%,0.15)`;
   ctx.fillStyle = `hsla(${col},60%,60%,0.15)`;
 
@@ -190,7 +189,6 @@ function bem(x1, y1, x2, y2, col, ban, s) {
     }
     ctx.fill();
   }
-  */
 }
 
 function _run() {

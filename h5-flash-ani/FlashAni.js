@@ -3,7 +3,7 @@ let _timer;
 let _lightCount = 40;
 let _lightWidth;
 
-let _poiData;
+let _poiDatas;
 let _percent;
 
 class FlashAni extends Laya.Sprite {
@@ -63,13 +63,13 @@ class FlashAni extends Laya.Sprite {
 
       for (a = 0; a < max; a++) {
         if (a === 0) {
-          arr.push(["moveTo", tx + p[a][0] * s - _sx, ty + p[a][1] * s - _sy])
+          arr.push(['moveTo', tx + p[a][0] * s - _sx, ty + p[a][1] * s - _sy]);
         } else {
-          arr.push(["lineTo", tx + p[a][0] * s - _sx, ty + p[a][1] * s - _sy])
+          arr.push(['lineTo', tx + p[a][0] * s - _sx, ty + p[a][1] * s - _sy]);
         }
       }
-      arr.push(["closePath"]);
-      this.graphics.drawPath(_sx, _sy, arr, { fillStyle: fillStyle });
+      arr.push(['closePath']);
+      this.graphics.drawPath(_sx, _sy, arr, { fillStyle });
     }
 
     this.graphics.drawPie(tx, ty, s / 2, 0, (Math.PI * 2) * 180 / Math.PI, fillStyle);
@@ -85,154 +85,156 @@ class FlashAni extends Laya.Sprite {
     let ft2;
     let tm; let t;
 
-    let grd = Laya.Browser.context.createRadialGradient(x1, y1, 0, x1, y1, _lightWidth * 70);
+    const grd = Laya.Browser.context.createRadialGradient(x1, y1, 0, x1, y1, _lightWidth * 70);
     grd.addColorStop(0, `hsla(${col},60%,60%,0.9)`);
     grd.addColorStop(1, `hsla(${col},60%,60%,0.0)`);
     this._pika(x1, y1, _lightWidth * 70, grd, grd);
 
-    x = x1 + (x2 - x1) * 0.97;
-    y = y1 + (y2 - y1) * 0.97;
-    grd = Laya.Browser.context.createRadialGradient(x, y, 0, x, y, _lightWidth * 100);
-    grd.addColorStop(0, `hsla(${col},60%,60%,0.4)`);
-    grd.addColorStop(1, `hsla(${col},60%,60%,0.0)`);
-    this._pika(x, y, _lightWidth * 100, grd, grd);
+    // x = x1 + (x2 - x1) * 0.97;
+    // y = y1 + (y2 - y1) * 0.97;
+    // grd = Laya.Browser.context.createRadialGradient(x, y, 0, x, y, _lightWidth * 100);
+    // grd.addColorStop(0, `hsla(${col},60%,60%,0.4)`);
+    // grd.addColorStop(1, `hsla(${col},60%,60%,0.0)`);
+    // this._pika(x, y, _lightWidth * 100, grd, grd);
+
     this.duma(x1, y1, x2, y2, 6, s * _lightWidth * 2, `hsla(${col},60%,60%,0.1)`);
-    /*
-        ctx.strokeStyle = `hsla(${col},60%,60%,0.15)`;
-        ctx.fillStyle = `hsla(${col},60%,60%,0.15)`;
-    
-        const ft = ((_step / _lightCount * 5 + ban / 2) % 1) * 1.4 - 0.2;
-        ban += x1 * 13 + y1 * 23;
-    
-        a = Math.atan2((y2 - y1), (x2 - x1));
-        const px = Math.cos(a);
-        const py = Math.sin(a);
-        const max = 100;
-        const hon = 100;
-    
-        for (g = 0; g < hon; g++) {
-          tm = g / hon * Math.PI;
-          ft2 = ((_step / _lightCount * 3 + g / hon + ban / 3) % 1) * 1.4 - 0.2;
-    
-          t = ((_step / _lightCount + g / hon * 7) % 1) * 3 - 1;
-          p1 = [];
-          for (a = 0; a < max; a++) {
-            b = t + a / max;
-            if (b < 0 || b > 1) continue;
-            c = Math.sin(_percent + tm * 3 + b * 7) * 20
-              + Math.sin(_percent * 2 + tm * 7 + g * 2 - b * 17) * 15
-              + Math.sin(_percent * 3 + tm * 11 + g * 3 - b * 37) * 5;
-            c *= _lightWidth * s;
-    
-            e = 1;
-            if (b < 0.2) e = b / 0.2;
-            if (b > 0.8) e = (1 - b) / 0.2;
-    
-            f = 0;
-            if (b > ft && b < ft + 0.2) {
-              f = (ft + 0.2 - b);
-              e += (ft + 0.2 - b) / 0.2;
-            }
-            if (b > ft2 && b < ft2 + 0.2) {
-              f += (ft2 + 0.2 - b) / 2;
-              e += (ft2 + 0.2 - b) / 0.3;
-            }
-    
-            e *= 1 - Math.random() / 4;
-            p1.push([x1 + (x2 - x1) * (b - f) + py * c * e, y1 + (y2 - y1) * (b - f) - px * c * e, e]);
-          }
-    
-          if (p1.length < 2) continue;
-          len = p1.length;
-          p2 = [];
-          for (a = 0; a < len - 1; a++) {
-            b = p1[a];
-            c = p1[a + 1];
-            x = b[0] - c[0];
-            y = b[1] - c[1];
-            b = Math.atan2(-y, x) + Math.PI / 2;
-            x = Math.cos(b);
-            y = Math.sin(b);
-            e = 1;
-            if (a < 3) e *= a / 3;
-            if (a > len - 5) e *= (len - 2 - a) / 3;
-            p2.push([x * e, y * e]);
-          }
-          ctx.beginPath();
-    
-          f = 7 * _lightWidth * s;
-          for (a = 0; a < len - 1; a++) {
-            b = p1[a];
-            c = p2[a];
-            ctx.lineTo(b[0] + c[0] * f, b[1] - c[1] * f);
-          }
-          for (a = len - 2; a >= 0; a--) {
-            b = p1[a];
-            c = p2[a];
-            ctx.lineTo(b[0] - c[0] * f, b[1] + c[1] * f);
-          }
-          ctx.fill();
+
+    const strokeStyle = `hsla(${col},100%,100%,0.15)`;
+    const ft = ((_step / _lightCount * 5 + ban / 2) % 1) * 1.4 - 0.2;
+    ban += x1 * 13 + y1 * 23;
+    a = Math.atan2((y2 - y1), (x2 - x1));
+    const px = Math.cos(a);
+    const py = Math.sin(a);
+    const max = 100;
+    const hon = 150;
+    for (g = 0; g < hon; g++) {
+      tm = g / hon * Math.PI;
+      ft2 = ((_step / _lightCount * 3 + g / hon + ban / 3) % 1) * 1.4 - 0.2;
+
+      t = ((_step / _lightCount + g / hon * 7) % 1) * 3 - 1;
+      p1 = [];
+      for (a = 0; a < max; a++) {
+        b = t + a / max;
+        if (b < 0 || b > 1) continue;
+        c = Math.sin(_percent + tm * 3 + b * 7) * 20
+          + Math.sin(_percent * 2 + tm * 7 + g * 2 - b * 17) * 15
+          + Math.sin(_percent * 3 + tm * 11 + g * 3 - b * 37) * 5;
+        c *= _lightWidth * s;
+
+        e = 1;
+        if (b < 0.2) e = b / 0.2;
+        if (b > 0.8) e = (1 - b) / 0.2;
+
+        f = 0;
+        if (b > ft && b < ft + 0.2) {
+          f = (ft + 0.2 - b);
+          e += (ft + 0.2 - b) / 0.2;
         }
-      */
+        if (b > ft2 && b < ft2 + 0.2) {
+          f += (ft2 + 0.2 - b) / 2;
+          e += (ft2 + 0.2 - b) / 0.3;
+        }
+
+        e *= 1 - Math.random() / 4;
+        p1.push([x1 + (x2 - x1) * (b - f) + py * c * e, y1 + (y2 - y1) * (b - f) - px * c * e, e]);
+      }
+
+      if (p1.length < 2) continue;
+      len = p1.length;
+      p2 = [];
+      for (a = 0; a < len - 1; a++) {
+        b = p1[a];
+        c = p1[a + 1];
+        x = b[0] - c[0];
+        y = b[1] - c[1];
+        b = Math.atan2(-y, x) + Math.PI / 2;
+        x = Math.cos(b);
+        y = Math.sin(b);
+        e = 1;
+        if (a < 3) e *= a / 3;
+        if (a > len - 5) e *= (len - 2 - a) / 3;
+        p2.push([x * e, y * e]);
+      }
+
+      f = 7 * _lightWidth * s;
+
+      const arr = [];
+      const _sx = p1[0][0] + p2[0][0] * f;
+      const _sy = p1[0][1] - p2[0][1] * f;
+
+      for (a = 0; a < len - 1; a++) {
+        b = p1[a];
+        c = p2[a];
+        arr.push(b[0] + c[0] * f - _sx, b[1] - c[1] * f - _sy);
+      }
+
+      for (a = len - 2; a >= 0; a--) {
+        b = p1[a];
+        c = p2[a];
+        arr.push(b[0] - c[0] * f - _sx, b[1] + c[1] * f - _sy);
+      }
+
+      this.graphics.drawLines(_sx, _sy, arr, strokeStyle, f);
+    }
   }
 
-  _run() {
+  _run(index) {
     console.log('run');
 
     _percent = _step / _lightCount * Math.PI * 2;
 
-    const x1 = _poiData[0][0];
-    const y1 = _poiData[0][1];
-    const x2 = _poiData[1][0];
-    const y2 = _poiData[1][1];
+    const x1 = _poiDatas[index][0][0];
+    const y1 = _poiDatas[index][0][1];
+    const x2 = _poiDatas[index][1][0];
+    const y2 = _poiDatas[index][1][1];
     const a = 0.5 + Math.sin(_percent) * 0.2 + Math.cos(_percent * 11) * 0.03;
     const tx = x1 + (x2 - x1) * a;
     const ty = y1 + (y2 - y1) * a;
 
     this.blendMode = 'lighter';
-    this._bem(x1, y1, tx, ty, 222, 0, a * 2);
-    this._bem(x2, y2, tx, ty, 333, 1, (1 - a) * 2);
+    this._bem(x1, y1, tx, ty, 5, 0, a * 2);
+    this._bem(x2, y2, tx, ty, 6, 1, (1 - a) * 2);
   }
 
 
-  _preRender() {
+  _preRender(index) {
     console.log('preRender');
-    const x1 = _poiData[0][0];
-    const y1 = _poiData[0][1];
-    const x2 = _poiData[1][0];
-    const y2 = _poiData[1][1];
-
-    this.graphics.clear();
-    this.graphics.drawRect(0, 0, this.width, this.height, 'rgba(0,0,0,1)');
+    const x1 = _poiDatas[index][0][0];
+    const y1 = _poiDatas[index][0][1];
+    const x2 = _poiDatas[index][1][0];
+    const y2 = _poiDatas[index][1][1];
 
     const a = Math.atan2((y2 - y1), (x2 - x1));
     const px = Math.cos(a) * _lightWidth * 100;
     const py = Math.sin(a) * _lightWidth * 100;
-    let grd = Laya.Browser.context.createLinearGradient(x1 - py, y1 + px, x1 + py, y1 - px);
-    grd.addColorStop(0, 'rgba(0,255,0,0)');
-    grd.addColorStop(0.5, 'rgba(0,255,0,1)');
-    grd.addColorStop(1, 'rgba(0,0,255,0)');
 
     const _sx = x1 - py;
     const _sy = y1 + px;
-    let paths = [
-      ["moveTo", x1 - py - _sx, y1 + px - _sy],
-      ["lineTo", x2 - py - _sx, y2 + px - _sy],
-      ["lineTo", x2 + py - _sx, y2 - px - _sy],
-      ["lineTo", x1 + py - _sx, y1 - px - _sy],
-      ["closePath"]
+    const paths = [
+      ['moveTo', x1 - py - _sx, y1 + px - _sy],
+      ['lineTo', x2 - py - _sx, y2 + px - _sy],
+      ['lineTo', x2 + py - _sx, y2 - px - _sy],
+      ['lineTo', x1 + py - _sx, y1 - px - _sy],
+      ['closePath'],
     ];
-    this.graphics.drawPath(_sx, _sy, paths, { fillStyle: grd });
+    const grd0 = Laya.Browser.context.createLinearGradient(x1 - py, y1 + px, x1 + py, y1 - px);
+    grd0.addColorStop(0, 'rgba(0,0,0,0)');
+    grd0.addColorStop(0.5, 'rgba(0,0,0,1)');
+    grd0.addColorStop(1, 'rgba(0,0,0,0)');
+    // _grds.push(grd0);
+    this.graphics.drawPath(_sx, _sy, paths, { fillStyle: grd0 });
 
-    grd = Laya.Browser.context.createRadialGradient(x1, y1, 0, x1, y1, _lightWidth * 100);
-    grd.addColorStop(0, 'rgba(0,255,0,1)');
-    grd.addColorStop(1, 'rgba(0,255,0,0)');
-    this.graphics.drawPie(x1, y1, _lightWidth * 100, (a + Math.PI / 2) * 180 / Math.PI, (a + Math.PI * 1.5) * 180 / Math.PI, grd);
+    const grd1 = Laya.Browser.context.createRadialGradient(x1, y1, 0, x1, y1, _lightWidth * 100);
+    grd1.addColorStop(0, 'rgba(0,0,0,1)');
+    grd1.addColorStop(1, 'rgba(0,0,0,0)');
+    // _grds.push(grd1);
+    this.graphics.drawPie(x1, y1, _lightWidth * 100, (a + Math.PI / 2) * 180 / Math.PI, (a + Math.PI * 1.5) * 180 / Math.PI, grd1);
 
-    grd = Laya.Browser.context.createRadialGradient(x2, y2, 0, x2, y2, _lightWidth * 100);
-    grd.addColorStop(0, 'rgba(0,255,0,1)');
-    grd.addColorStop(1, 'rgba(0,255,0,0)');
-    this.graphics.drawPie(x2, y2, _lightWidth * 100, (a + Math.PI * 1.5) * 180 / Math.PI, (a + Math.PI / 2) * 180 / Math.PI, grd);
+    const grd2 = Laya.Browser.context.createRadialGradient(x2, y2, 0, x2, y2, _lightWidth * 100);
+    grd2.addColorStop(0, 'rgba(0,0,0,1)');
+    grd2.addColorStop(1, 'rgba(0,0,0,0)');
+    // _grds.push(grd2);
+    this.graphics.drawPie(x2, y2, _lightWidth * 100, (a + Math.PI * 1.5) * 180 / Math.PI, (a + Math.PI / 2) * 180 / Math.PI, grd2);
   }
 
   _loop() {
@@ -241,23 +243,19 @@ class FlashAni extends Laya.Sprite {
       this._loop();
     }, 40);
     console.log(_step);
-    this._preRender();
-    this._run();
+    this.graphics.clear();
+    for (let i = 0; i < _poiDatas.length; i++) {
+      this._preRender(i);
+      this._run(i);
+    }
     _step++;
   }
 
-  init() {
-    const _startX = (this.width / 4) || 0;
-    const _startY = (this.height / 2) || 0;
-    const _endX = this.width - _startX;
-    const _endY = _startY;
-    _poiData = [
-      [_startX, _startY],
-      [_endX, _endY],
-    ];
+  init(pois) {
+    _poiDatas = pois;
     _step = 0;
-    _lightCount = 40;
-    _lightWidth = 3.0 / 10;
+    _lightCount = 5;
+    _lightWidth = 2.0 / 10;
     this._loop();
   }
 }
