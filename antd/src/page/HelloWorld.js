@@ -2,7 +2,7 @@ import React from 'react';
 import { Card } from 'antd';
 
 export default class HelloWorld extends React.Component {
-  renderBasic() {
+  render() {
     const { name } = this.props;
     return (
       <div className="shopping-list">
@@ -38,12 +38,6 @@ export default class HelloWorld extends React.Component {
           />
         </Card>
       </div>
-    );
-  }
-
-  render() {
-    return (
-      <div />
     );
   }
 }
