@@ -1,7 +1,9 @@
 import React from 'react';
-import { Layout } from 'antd';
+import { Layout, Menu, Icon } from 'antd';
+import Link from 'umi/link';
 
 const { Header, Footer, Sider, Content } = Layout;
+const { SubMenu } = Menu;
 
 export default class HelloWorld extends React.Component {
   render() {
@@ -9,7 +11,40 @@ export default class HelloWorld extends React.Component {
     return (
       <Layout>
         <Sider width={256} style={{ minHeight: '100vh', color: 'white' }}>
-          Silder
+          <div style={{ height: '32px', background: 'rgba(255,255,0,.9)', margin: '16px' }} />
+          <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
+            <Menu.Item key="1">
+              <Link to="/helloworld">
+                <Icon type="pie-chart" />
+                <span>Helloworld</span>
+              </Link>
+            </Menu.Item>
+            <SubMenu
+              key="sub1"
+              title={(
+                <span>
+                  <Icon type="dashboard" />
+                  <span>Dashboard</span>
+                </span>
+              )}
+            >
+              <Menu.Item key="2">
+                <Link to="/dashboard/analysis">
+                  分析页
+                </Link>
+              </Menu.Item>
+              <Menu.Item key="3">
+                <Link to="/dashboard/monitor">
+                  监控页
+                </Link>
+              </Menu.Item>
+              <Menu.Item key="4">
+                <Link to="/dashboard/workplace">
+                  工作台
+                </Link>
+              </Menu.Item>
+            </SubMenu>
+          </Menu>
         </Sider>
         <Layout>
           <Header style={{ background: '#fff', textAlign: 'center', padding: 0 }}>
