@@ -9,7 +9,7 @@ export default class HelloWorld extends React.Component {
   render() {
     const { children } = this.props;
     return (
-      <Layout>
+      <Layout title="Super计算器">
         <Sider width={256} style={{ minHeight: '100vh', color: 'white' }}>
           <div style={{ height: '32px', background: 'rgba(255,255,0,.9)', margin: '16px' }} />
           <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
