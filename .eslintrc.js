@@ -17,6 +17,7 @@ module.exports = {
       "exports": "always-multiline",
       "functions": "ignore"
     }],
+    "no-console": [0],
     "no-unused-vars": [2, {
       "vars": "all",
       "args": "after-used",

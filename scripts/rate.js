@@ -63,7 +63,9 @@ function getHouseRate(num, year, rate, startDate) {
   for (let i = 1; i <= months; i++) {
     const tmp = toFixed((num - hasBack) * monthRate, 2);
     const needBack = toFixed(needBase + tmp, 2);
-    console.log(i, formatDate(startMonth, 'yyyy-MM-dd'), needBack, tmp, needBase, monthRate);
+    if (i >= 34) {
+      console.log(i, formatDate(startMonth, 'yyyy-MM-dd'), needBack, needBase, tmp);
+    }
     startMonth.setMonth(startMonth.getMonth() + 1);
     hasBack += needBase;
     if (i >= 34) {
@@ -99,7 +101,7 @@ function getHourseRate3(num, startNo, endNo, rate, everyMonth) {
     const tmp2 = toFixed(everyMonth - tmp1, 2);
     hasBack += tmp2;
     hasBack = toFixed(hasBack, 2);
-    console.log(i, formatDate(startMonth, 'yyyy-MM-dd'), needBack, tmp1, tmp2, everyMonth, hasBack);
+    console.log(i, formatDate(startMonth, 'yyyy-MM-dd'), needBack, tmp1, tmp2, everyMonth);
     needBack -= tmp2;
     needBack = toFixed(needBack, 2);
     startMonth.setMonth(startMonth.getMonth() + 1);
