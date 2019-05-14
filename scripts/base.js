@@ -129,6 +129,8 @@ console.log(str3);
 const fruits = ['Banana', 'Orange', 'Apple', 'Mango'];
 fruits[6] = 'Lemon'; // adds a new element (Lemon) to fruits
 console.log(fruits);// [ 'Banana', 'Orange', 'Apple', 'Mango', <2 empty items>, 'Lemon' ]
+console.log(fruits.toString());
+console.log(fruits.join());
 
 /**
  * Symbol

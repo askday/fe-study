@@ -27,28 +27,31 @@ const output = [];
 // 姓名  晚于10点次数  不满8小时次数
 lineReader.on('line', (line) => {
   // console.log(line);
-  const arr = line.split(',');
+  const arr = line.split('\t');
   let obj = output[arr[0]];
   if (!obj) {
     obj = {
-      l: 0, t: 0, l7: 0, t7: 0, l8: 0, t8: 0, l9: 0, t9: 0
+      l: 0, t: 0, l7: 0, t7: 0, l8: 0, t8: 0, l9: 0, t9: 0,
     };
     output[arr[0]] = obj;
   }
-  if (arr[7].length > 0 && arr[8].length > 0) {
-    const firstCard = getMin(arr[7]);
-    const secCard = getMin(arr[8]);
+  if (arr[4].length > 0 && arr[5].length > 0) {
+    const firstCard = getMin(arr[4]);
+    const secCard = getMin(arr[5]);
 
     let isLater = false;
     let isTime = false;
 
+    const month = arr[2].substring(5, 7);
+    console.log(arr[2], month);
     if (firstCard > 600) {
       obj.l += 1;
-      if (arr[5].charAt(6) === '7') {
+
+      if (month === '10') {
         obj.l7 += 1;
-      } else if (arr[5].charAt(6) === '8') {
+      } else if (month === '11') {
         obj.l8 += 1;
-      } else if (arr[5].charAt(6) === '9') {
+      } else if (month === '12') {
         obj.l9 += 1;
       }
       isLater = true;
@@ -56,11 +59,11 @@ lineReader.on('line', (line) => {
 
     if (secCard - firstCard <= 9 * 60) {
       obj.t += 1;
-      if (arr[5].charAt(6) === '7') {
+      if (month === '10') {
         obj.t7 += 1;
-      } else if (arr[5].charAt(6) === '8') {
+      } else if (month === '11') {
         obj.t8 += 1;
-      } else if (arr[5].charAt(6) === '9') {
+      } else if (month === '12') {
         obj.t9 += 1;
       }
       isTime = true;

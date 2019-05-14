@@ -127,3 +127,4 @@ console.log('到2046年总共还的金额：', shd.all + gjj.all);
 console.log('到2046需要还的利息总额：', shd.all - shd.now + gjj.all - gjj.now);
 // console.log(shd, shd.all - shd.now);
 // console.log(gjj, gjj.all - gjj.now);
+getHourseRate1(25000, 1, 360, 4.96);
