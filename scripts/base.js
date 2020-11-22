@@ -138,3 +138,28 @@ console.log(fruits.join());
 const s = Symbol('test');
 console.log(s);
 console.log(typeof s);
+
+/**
+ * test
+ */
+console.log(bb)
+var bb = 1;
+
+foo();
+
+function foo() {
+  aa = 5;
+  console.log(this === obj1, this.aa);
+}
+
+var obj1 = {
+  aa: 2,
+  foo: foo,
+}
+
+function doFun(fn) {
+  fn();
+}
+var aa = 3;
+doFun(obj1.foo);
+foo();
